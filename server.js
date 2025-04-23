@@ -5,7 +5,8 @@ const cors = require('cors');
 require('dotenv').config();
 
 const weatherAPI = require('./src/api/weather');
-const recommendationsAPI = require('./src/utils/recommendations'); // Updated to our new recommendations API
+const recommendationsAPI = require('./src/api/recommendations');
+const respiratoryAPI = require('./src/api/respiratory'); 
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -16,6 +17,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/weather', weatherAPI);
 app.use('/api/recommendations', recommendationsAPI);
+app.use('/api', respiratoryAPI); 
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));

@@ -3,32 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Environmental Safety Advisor</title>
+    <title>UCLA Environmental Safety Advisor</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Personalized Environmental Safety Advisor</h1>
-            <p>Get real-time recommendations based on environmental conditions</p>
+            <h1><i class="fas fa-leaf"></i> UCLA Environmental Safety Advisor</h1>
+            <p>Get real-time personalized recommendations based on environmental conditions</p>
         </header>
 
         <main>
             <section class="input-section">
                 <h2>Enter Your Information</h2>
+
+                <!-- Quick Activity Selection Icons -->
+                <div class="activity-icons">
+                    <div class="activity-icon" data-activity="running">
+                        <i class="fas fa-running"></i>
+                        <span>Running</span>
+                    </div>
+                    <div class="activity-icon" data-activity="walking">
+                        <i class="fas fa-walking"></i>
+                        <span>Walking</span>
+                    </div>
+                    <div class="activity-icon" data-activity="cycling">
+                        <i class="fas fa-biking"></i>
+                        <span>Cycling</span>
+                    </div>
+                    <div class="activity-icon" data-activity="hiking">
+                        <i class="fas fa-hiking"></i>
+                        <span>Hiking</span>
+                    </div>
+                    <div class="activity-icon" data-activity="outdoor sports">
+                        <i class="fas fa-futbol"></i>
+                        <span>Sports</span>
+                    </div>
+                    <div class="activity-icon" data-activity="picnic">
+                        <i class="fas fa-umbrella-beach"></i>
+                        <span>Picnic</span>
+                    </div>
+                </div>
+
                 <form id="safety-form">
                     <div class="form-group">
-                        <label for="location">Your Location:</label>
+                        <label for="location"><i class="fas fa-map-marker-alt"></i> Your Location:</label>
                         <input type="text" id="location" placeholder="Enter city, zip code, or coordinates" required>
+                        <button type="button" id="use-current-location" class="btn-secondary">
+                            <i class="fas fa-crosshairs"></i> Use My Location
+                        </button>
                     </div>
 
                     <div class="form-group">
-                        <label for="activity">Planned Activity:</label>
+                        <label for="activity"><i class="fas fa-person-running"></i> Planned Activity:</label>
                         <input type="text" id="activity" placeholder="E.g., Running outdoors, Cycling, Walking with children" required>
                     </div>
 
-                    <button type="submit" class="btn">Get Recommendations</button>
+                    <div class="form-group respiratory-section">
+                        <label for="respiratory-issues"><i class="fas fa-lungs"></i> Respiratory Conditions:</label>
+                        <div class="respiratory-toggle">
+                            <button type="button" id="toggle-respiratory" class="btn-secondary">
+                                <i class="fas fa-plus-circle"></i> I have respiratory conditions
+                            </button>
+                        </div>
+                        
+                        <div id="respiratory-options" class="hidden">
+                            <div class="conditions-container">
+                                <!-- Respiratory conditions will be dynamically inserted here -->
+                            </div>
+                            
+                            <div id="selected-conditions" class="selected-conditions">
+                                <!-- Selected conditions will appear here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn">
+                        <i class="fas fa-search"></i> Get Recommendations
+                    </button>
+                    <button type="button" id="clear-form" class="btn-secondary">
+                        <i class="fas fa-eraser"></i> Clear Form
+                    </button>
+                    
                 </form>
+
+
+                <div id="recent-searches">
+                    <h3>Recent Searches</h3>
+                    <div id="recent-searches-list">
+                        <!-- Recent searches will be added here dynamically -->
+                    </div>
+                </div>
             </section>
 
             <div id="loading" class="loading">
@@ -37,22 +104,72 @@
             </div>
 
             <section id="results" class="results-section">
-                <div id="weather-data" class="weather-data">
-                    <!-- Weather data will be inserted here by JavaScript -->
+                <!-- Tabs for weather and recommendations -->
+                <div class="tabs">
+                    <div class="tab active" data-tab="weather">Weather Data</div>
+                    <div class="tab" data-tab="recommendations">Recommendations</div>
+                    <div class="tab" data-tab="history">Search History</div>
                 </div>
-
-                <div id="recommendations" class="recommendations">
-                    <!-- Recommendations will be inserted here by JavaScript -->
+                
+                <!-- Weather data tab -->
+                <div id="weather-tab" class="tab-content active">
+                    <div id="weather-data" class="weather-data">
+                        <!-- Weather data will be inserted here by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Recommendations tab -->
+                <div id="recommendations-tab" class="tab-content">
+                    <div id="recommendations" class="recommendations">
+                        <!-- Recommendations will be inserted here by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- History tab -->
+                <div id="history-tab" class="tab-content">
+                    <div id="history-container">
+                        <h3>Your Search History</h3>
+                        <div id="history-list">
+                            <!-- History items will be inserted here by JavaScript -->
+                        </div>
+                        <button id="clear-history" class="btn">Clear History</button>
+                    </div>
                 </div>
             </section>
         </main>
 
         <footer>
-            <p>Environmental Safety Advisor &copy; 2025 | Uses real-time data from WeatherAPI.com and AI-powered recommendations</p>
+            <div class="footer-content">
+                <div class="footer-branding">
+                    <h3>UCLA Environmental Safety Advisor</h3>
+                    <p>Powered by real-time weather data and AI-driven recommendations</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#" id="about-link">About</a>
+                    <a href="#" id="faq-link">FAQ</a>
+                    <a href="#" id="contact-link">Contact</a>
+                </div>
+            </div>
             <p><small>Note: This tool provides general guidance based on available data. Always use your best judgment and consult official sources during severe conditions.</small></p>
+            <p>&copy; 2025 UCLA Environmental Safety Initiative</p>
         </footer>
     </div>
 
+    <!-- Dark mode toggle button -->
+    <button class="theme-toggle" id="theme-toggle">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Modal for about/FAQ -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modal-content"></div>
+        </div>
+    </div>
+
     <script src="js/app.js"></script>
+    <script src="js/respiratoryHandler.js"></script>
+
 </body>
 </html>

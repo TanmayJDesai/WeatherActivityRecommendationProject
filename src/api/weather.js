@@ -1,3 +1,4 @@
+// src/api/weather.js
 const express = require('express');
 const axios = require('axios');
 const router = express.Router();
@@ -13,7 +14,7 @@ router.get('/:location', async (req, res) => {
       `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}&aqi=yes`
     );
     
-    // Extract more comprehensive weather and air quality data
+    // Format the data to match what our frontend and manualRecommendations.js expect
     const weatherData = {
       location: {
         name: response.data.location.name,
@@ -22,6 +23,22 @@ router.get('/:location', async (req, res) => {
         lat: response.data.location.lat,
         lon: response.data.location.lon,
       },
+      // Current data in the flat format expected by manualRecommendations.js
+      temp_c: response.data.current.temp_c,
+      temp_f: response.data.current.temp_f,
+      humidity: response.data.current.humidity,
+      wind_kph: response.data.current.wind_kph,
+      wind_mph: response.data.current.wind_mph,
+      wind_dir: response.data.current.wind_dir,
+      uv: response.data.current.uv,
+      feelslike_c: response.data.current.feelslike_c,
+      feelslike_f: response.data.current.feelslike_f,
+      vis_km: response.data.current.vis_km,
+      condition: {
+        text: response.data.current.condition.text,
+        code: response.data.current.condition.code
+      },
+      // Current data in the nested format for consistent access
       current: {
         temp_c: response.data.current.temp_c,
         temp_f: response.data.current.temp_f,
@@ -29,12 +46,15 @@ router.get('/:location', async (req, res) => {
         wind_kph: response.data.current.wind_kph,
         wind_dir: response.data.current.wind_dir,
         uv: response.data.current.uv,
-        condition: response.data.current.condition.text,
+        condition: {
+          text: response.data.current.condition.text,
+          code: response.data.current.condition.code
+        },
         feelslike_c: response.data.current.feelslike_c,
         feelslike_f: response.data.current.feelslike_f,
-        vis_km: response.data.current.vis_km,
-        pressure_mb: response.data.current.pressure_mb,
+        vis_km: response.data.current.vis_km
       },
+      // Air quality data
       air_quality: {
         pm2_5: response.data.current.air_quality?.pm2_5,
         pm10: response.data.current.air_quality?.pm10,
@@ -42,8 +62,7 @@ router.get('/:location', async (req, res) => {
         no2: response.data.current.air_quality?.no2,
         so2: response.data.current.air_quality?.so2,
         o3: response.data.current.air_quality?.o3,
-        us_epa_index: response.data.current.air_quality?.['us-epa-index'],
-        gb_defra_index: response.data.current.air_quality?.['gb-defra-index'],
+        us_epa_index: response.data.current.air_quality?.['us-epa-index']
       }
     };
     

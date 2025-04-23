@@ -1,11 +1,15 @@
 :root {
-    --primary-color: #2c7873;
-    --secondary-color: #6fb98f;
+    --primary-color: #2774AE; /* UCLA Blue */
+    --secondary-color: #FFD100; /* UCLA Gold */
     --background-color: #f7f9fb;
     --text-color: #2e4057;
-    --accent-color: #db504a;
+    --accent-color: #005587; /* Darker UCLA Blue for accents */
+    --warning-color: #FFB81C; /* Amber for warnings */
+    --danger-color: #FF5A5F; /* Red for danger */
+    --success-color: #00A88F; /* Teal for success */
     --border-radius: 8px;
     --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition-speed: 0.3s;
 }
 
 * {
@@ -32,11 +36,20 @@ header {
     margin-bottom: 30px;
     padding: 20px 0;
     border-bottom: 2px solid var(--primary-color);
+    background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+    color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
 }
 
 header h1 {
-    color: var(--primary-color);
+    color: var(--secondary-color);
     margin-bottom: 10px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+header p {
+    color: white;
 }
 
 .input-section {
@@ -45,6 +58,12 @@ header h1 {
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     margin-bottom: 30px;
+    border-left: 4px solid var(--primary-color);
+    transition: transform var(--transition-speed);
+}
+
+.input-section:hover {
+    transform: translateY(-5px);
 }
 
 .form-group {
@@ -55,6 +74,7 @@ label {
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
+    color: var(--primary-color);
 }
 
 input {
@@ -63,6 +83,13 @@ input {
     border: 1px solid #ddd;
     border-radius: var(--border-radius);
     font-size: 16px;
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(39, 116, 174, 0.2);
 }
 
 .btn {
@@ -73,16 +100,29 @@ input {
     font-size: 16px;
     border-radius: var(--border-radius);
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color var(--transition-speed), transform var(--transition-speed);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .btn:hover {
-    background-color: var(--secondary-color);
+    background-color: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn:active {
+    transform: translateY(0);
 }
 
 .results-section {
     display: none;
     margin-top: 30px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .weather-data {
@@ -91,6 +131,14 @@ input {
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     margin-bottom: 20px;
+    border-left: 4px solid var(--secondary-color);
+}
+
+.weather-data h2 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
 }
 
 .recommendations {
@@ -98,12 +146,28 @@ input {
     padding: 20px;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
+    border-left: 4px solid var(--primary-color);
+}
+
+.recommendations h2 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
 }
 
 .recommendation-section {
     margin-bottom: 20px;
     padding-bottom: 15px;
     border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 10px;
+    cursor: pointer;
+    transition: background-color var(--transition-speed);
+}
+
+.recommendation-section:hover {
+    background-color: rgba(39, 116, 174, 0.05);
 }
 
 .recommendation-section:last-child {
@@ -116,11 +180,33 @@ input {
     margin-bottom: 10px;
     padding-bottom: 5px;
     border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+}
+
+.recommendation-section h3::before {
+    content: "▶";
+    margin-right: 8px;
+    font-size: 0.8em;
+    transition: transform var(--transition-speed);
+}
+
+.recommendation-section.expanded h3::before {
+    transform: rotate(90deg);
 }
 
 .recommendation-content {
     padding: 10px 0;
     line-height: 1.6;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--transition-speed), opacity var(--transition-speed);
+    opacity: 0;
+}
+
+.recommendation-section.expanded .recommendation-content {
+    max-height: 1000px;
+    opacity: 1;
 }
 
 .loading {
@@ -149,26 +235,34 @@ input {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background-color var(--transition-speed);
+}
+
+.data-item:hover {
+    background-color: rgba(39, 116, 174, 0.05);
 }
 
 .data-item span:first-child {
     font-weight: 600;
     min-width: 150px;
     margin-right: 10px;
+    color: var(--primary-color);
 }
 
 .status-safe {
-    color: #28a745;
+    color: var(--success-color);
     font-weight: 600;
 }
 
 .status-warning {
-    color: #ffc107;
+    color: var(--warning-color);
     font-weight: 600;
 }
 
 .status-danger {
-    color: #dc3545;
+    color: var(--danger-color);
     font-weight: 600;
 }
 
@@ -200,8 +294,138 @@ footer {
     border-top: 1px solid #ddd;
     font-size: 14px;
     color: #666;
+    background-color: rgba(39, 116, 174, 0.05);
+    border-radius: var(--border-radius);
+    padding: 20px;
 }
 
+/* New styles for interactive features */
+.toggle-details {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    cursor: pointer;
+    font-size: 0.9em;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color var(--transition-speed);
+}
+
+.toggle-details:hover {
+    background-color: rgba(39, 116, 174, 0.1);
+}
+
+.severity-indicator {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-left: 8px;
+}
+
+.severity-low {
+    background-color: var(--success-color);
+}
+
+.severity-medium {
+    background-color: var(--warning-color);
+}
+
+.severity-high {
+    background-color: var(--danger-color);
+}
+
+.activity-icons {
+    display: flex;
+    margin: 15px 0;
+    justify-content: center;
+    gap: 15px;
+}
+
+.activity-icon {
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    text-align: center;
+    width: 80px;
+}
+
+.activity-icon:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-3px);
+}
+
+.activity-icon.selected {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.activity-icon i {
+    font-size: 24px;
+    margin-bottom: 5px;
+    display: block;
+}
+
+#history-container {
+    margin-top: 20px;
+    background-color: white;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    display: none;
+}
+
+#history-container h3 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.history-item {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background-color var(--transition-speed);
+}
+
+.history-item:hover {
+    background-color: rgba(39, 116, 174, 0.05);
+}
+
+.history-item:last-child {
+    border-bottom: none;
+}
+
+/* Tabs for weather data and recommendations */
+.tabs {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.tab {
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    margin-right: 5px;
+    transition: background-color var(--transition-speed);
+}
+
+.tab.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Media queries */
 @media (max-width: 768px) {
     .container {
         padding: 15px;
@@ -214,4 +438,339 @@ footer {
     .data-item span:first-child {
         min-width: 120px;
     }
+    
+    .activity-icons {
+        flex-wrap: wrap;
+    }
+}
+
+/* Dark mode toggle */
+.theme-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    transition: all var(--transition-speed);
+    z-index: 100;
+}
+
+.theme-toggle:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Dark mode styles */
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+body.dark-mode .input-section,
+body.dark-mode .weather-data,
+body.dark-mode .recommendations,
+body.dark-mode #history-container {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+}
+
+body.dark-mode input {
+    background-color: #2a2a2a;
+    border-color: #3a3a3a;
+    color: #e0e0e0;
+}
+
+body.dark-mode label,
+body.dark-mode h2,
+body.dark-mode h3 {
+    color: var(--secondary-color);
+}
+
+body.dark-mode .data-item:hover,
+body.dark-mode .recommendation-section:hover {
+    background-color: rgba(255, 209, 0, 0.1);
+}
+
+body.dark-mode .recommendation-section,
+body.dark-mode .data-item {
+    border-color: #333;
+}
+
+body.dark-mode .theme-toggle {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+}
+
+/* Visual meter for AQI and UV */
+.meter-container {
+    margin: 10px 0;
+    background-color: #f0f0f0;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.meter-value {
+    height: 100%;
+    transition: width var(--transition-speed);
+}
+
+.meter-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #666;
+    margin-top: 4px;
+}
+
+/* Weather icons */
+.weather-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+    text-align: center;
+    color: var(--primary-color);
+}
+
+/* Animations */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+/* Respiratory Conditions Section Styles */
+.respiratory-section {
+    margin-bottom: 25px;
+}
+
+.respiratory-toggle {
+    margin-bottom: 15px;
+}
+
+#respiratory-options {
+    background-color: #f9f9f9;
+    border-radius: var(--border-radius);
+    padding: 15px;
+    margin-top: 10px;
+    border: 1px solid #eee;
+    transition: all var(--transition-speed);
+}
+
+.hidden {
+    display: none;
+}
+
+.conditions-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.condition-item {
+    padding: 10px;
+    background-color: white;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    border: 1px solid #eee;
+    display: flex;
+    align-items: center;
+}
+
+.condition-item:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.condition-item.selected {
+    background-color: rgba(39, 116, 174, 0.1);
+    border-color: var(--primary-color);
+}
+
+.condition-item i {
+    margin-right: 8px;
+    color: var(--primary-color);
+}
+
+.selected-conditions {
+    margin: 15px 0;
+}
+
+.selected-condition {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    background-color: white;
+    border-radius: var(--border-radius);
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+}
+
+.condition-details {
+    flex: 1;
+}
+
+.condition-name {
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.severity-options {
+    display: flex;
+    margin-top: 8px;
+    gap: 10px;
+}
+
+.severity-btn {
+    padding: 5px 10px;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    font-size: 12px;
+}
+
+.severity-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.severity-btn.selected {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.remove-condition {
+    background: none;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    font-size: 18px;
+    transition: color var(--transition-speed);
+    margin-left: 15px;
+}
+
+.remove-condition:hover {
+    color: var(--danger-color);
+}
+
+.btn-secondary {
+    background-color: white;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    padding: 8px 16px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all var(--transition-speed);
+}
+
+.btn-secondary:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Dark mode styles for respiratory section */
+body.dark-mode #respiratory-options {
+    background-color: #252525;
+    border-color: #333;
+}
+
+body.dark-mode .condition-item {
+    background-color: #333;
+    border-color: #444;
+}
+
+body.dark-mode .condition-item:hover {
+    border-color: var(--secondary-color);
+}
+
+body.dark-mode .condition-item.selected {
+    background-color: rgba(255, 209, 0, 0.2);
+    border-color: var(--secondary-color);
+}
+
+body.dark-mode .selected-condition {
+    background-color: #333;
+    border-color: #444;
+}
+
+body.dark-mode .severity-btn {
+    background-color: #444;
+    border-color: #555;
+    color: #e0e0e0;
+}
+
+body.dark-mode .severity-btn:hover {
+    background-color: #555;
+}
+
+body.dark-mode .severity-btn.selected {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    border-color: var(--secondary-color);
+}
+
+body.dark-mode .btn-secondary {
+    background-color: #333;
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+body.dark-mode .btn-secondary:hover {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+}
+
+/* Add these styles to your styles.css file */
+
+.form-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+#clear-form {
+    background-color: #f0f0f0;
+    color: var(--text-color);
+    border: 1px solid #ddd;
+    transition: all var(--transition-speed);
+}
+
+#clear-form:hover {
+    background-color: #e0e0e0;
+    color: var(--danger-color);
+    border-color: var(--danger-color);
+}
+
+/* Dark mode styles */
+body.dark-mode #clear-form {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode #clear-form:hover {
+    background-color: #333;
+    color: var(--danger-color);
+    border-color: var(--danger-color);
 }
