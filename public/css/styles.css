@@ -689,6 +689,10 @@ body.dark-mode .theme-toggle {
     color: white;
 }
 
+#add-condition {
+    margin-top: 10px;
+}
+
 /* Dark mode styles for respiratory section */
 body.dark-mode #respiratory-options {
     background-color: #252525;
