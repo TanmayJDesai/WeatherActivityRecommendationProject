@@ -3,7 +3,6 @@
 > **🏆 Best Algorithm / Software / Hardware — InT@UCLA Biohackathon 2025**  
 > Awarded May 3rd, 2025 by the InT@UCLA Biohackathon Team, sponsored by New England Biolabs
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-environmentalsafetyadvisor.vercel.app-blue?style=for-the-badge)](https://environmentalsafetyadvisor.vercel.app)
 [![JavaScript](https://img.shields.io/badge/JavaScript-88%25-yellow?style=for-the-badge&logo=javascript)](https://github.com/TanmayJDesai/WeatherActivityRecommendationProject)
 [![CSS](https://img.shields.io/badge/CSS-8%25-blue?style=for-the-badge&logo=css3)](https://github.com/TanmayJDesai/WeatherActivityRecommendationProject)
 [![HTML](https://img.shields.io/badge/HTML-4%25-orange?style=for-the-badge&logo=html5)](https://github.com/TanmayJDesai/WeatherActivityRecommendationProject)
