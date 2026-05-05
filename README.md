@@ -107,18 +107,13 @@ npm install
 node server.js
 ```
 
-Open your browser to `http://localhost:3000`
-
-### Live Deployment
-The app is live at: **[environmentalsafetyadvisor.vercel.app](https://environmentalsafetyadvisor.vercel.app)**
+Open your browser to `http://localhost:3000` -- You will need env file creation with your own api key. 
 
 ---
 
 ## 👥 Contributors
 
-- **Tanmay Desai** — UCLA B.S. Computer Science & Engineering, M.S. Data Science (in progress)
-- **Suraj Kulkarni**
-- **Joshua Lee**
+- **Tanmay Desai** — UCLA B.S. Computer Science & Engineering, M.S. Data Science
 
 ---
 
