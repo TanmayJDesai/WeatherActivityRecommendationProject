@@ -10,7 +10,7 @@ This project won **Best Algorithm / Software / Hardware** at the **InT@UCLA Bioh
 
 | | |
 |---|---|
-| ![Research Poster](docs/poster.jpg) | ![Certificate of Achievement](docs/certificate.jpg) |
+| ![Research Poster](./poster.jpg) | ![Certificate of Achievement](./certificate.jpg) |
 | *Research poster presented at UCLA* | *Certificate awarded May 3rd, 2025* |
 
 > **Note for setup:** Add `poster.jpg` and `certificate.jpg` into a `/docs` folder in this repo to display the images above.
